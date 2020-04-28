@@ -22,7 +22,7 @@ In R programming, which function (without the parenthesis) check for missing dat
 is.na
 
 ## Question 4
-What is the command to check the status of a submitted job on the CGRB server. 
+What is the command to check the status of a submitted job on the CGRB server. qstat
 
 ## Go the email address
 davidlab.science.oregonstate.edu/sites/davidlab.science.oregonstate.edu/files/answer1_answer2_answer3_answer4.pdf
