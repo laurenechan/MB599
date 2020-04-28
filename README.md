@@ -15,6 +15,7 @@ What year was Oregon State University created?
 
 ## Question 2
 How many colleges is there at Oregon State University?
+12
 
 ## Question 3
 In R programming, which function (without the parenthesis) check for missing data in R?
