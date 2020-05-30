@@ -159,7 +159,22 @@ contrast12 <- makeContrasts(minus.12 - plus.12, levels=design) # decided to incl
 contrast18 <- makeContrasts(minus.18 - plus.18, levels=design)
 contrast24 <- makeContrasts(minus.24 - plus.24, levels=design)
 
-# ANALYSIS BY VOOM TREND WITH SAMPLE QUALITY WEIGHT AND TMM NORMALIZATION
+# ANALYSIS BY QL F_TEST WITH BIOCOEFVARIATION ADN DISPERSION NORMALIZATION                           
+dge <- estimateDisp(dge,design, robust=TRUE) # estimate the disperstion, global and common, from DGEList object
+                                             # error created if DGEList includes $genes
+dge$common.dispersion 
+plotBCV(dge) # plot the biological coefficient of variation
+fit <- glmQLFit(dge, design, robust=TRUE)
+head(fit$coefficients)
+plotQLDisp(fit) # plot the raw and squeezed dispersion, goal is to estimate variation between genes between samples
+                           
+# The following block of code needs to be rerun for each desired contrast (i.e. 18hpf + vs –)
+qlf12 <- glmQLFTest(fit, contrast=contrast12) # given the appropriate contrast
+top12<-topTags(qlf12, n=Inf, adjust.method="BH", sort.by = "P") # list the top differentially expressed genes
+write.table(top12, "summaryqlf12.txt", sep="\t") # write it to a table
+plotMD(qlf12) # plot the DEGs by color
+                           
+# ANALYSIS BY LIMMA-VOOM TREND WITH SAMPLE QUALITY WEIGHT AND TMM NORMALIZATION
 vwts <- voomWithQualityWeights(dge, design, normalization="TMM", plot=TRUE) 
 # Each block is for each contrast to measure with individual outputs
 # 12 hpf contrast, include in output the entrezgene id and zfin id
